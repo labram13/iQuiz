@@ -16,6 +16,7 @@
 		1F5047C22BE00B54006C33F0 /* iQuizTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5047C12BE00B54006C33F0 /* iQuizTests.swift */; };
 		1F5047CC2BE00B54006C33F0 /* iQuizUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5047CB2BE00B54006C33F0 /* iQuizUITests.swift */; };
 		1F5047CE2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5047CD2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift */; };
+		1FB55ED62BE70F3500834306 /* QuizTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB55ED52BE70F3500834306 /* QuizTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		1F5047C72BE00B54006C33F0 /* iQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F5047CB2BE00B54006C33F0 /* iQuizUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizUITests.swift; sourceTree = "<group>"; };
 		1F5047CD2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1FB55ED52BE70F3500834306 /* QuizTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				1F5047B32BE00B54006C33F0 /* Assets.xcassets */,
 				1F5047B52BE00B54006C33F0 /* LaunchScreen.storyboard */,
 				1F5047B82BE00B54006C33F0 /* Info.plist */,
+				1FB55ED52BE70F3500834306 /* QuizTableViewCell.swift */,
 			);
 			path = iQuiz;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			files = (
 				1F5047AF2BE00B53006C33F0 /* ViewController.swift in Sources */,
 				1F5047AB2BE00B53006C33F0 /* AppDelegate.swift in Sources */,
+				1FB55ED62BE70F3500834306 /* QuizTableViewCell.swift in Sources */,
 				1F5047AD2BE00B53006C33F0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
