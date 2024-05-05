@@ -109,7 +109,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 110
+        if UIDevice.current.orientation.isLandscape {
+                // Return a smaller height if the device is in landscape mode
+                return 110
+            } else {
+                // Return a larger height if the device is in portrait mode
+                return 150.0
+            }
         
     }
     
