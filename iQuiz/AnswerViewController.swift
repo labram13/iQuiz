@@ -60,7 +60,7 @@ class AnswerViewController: UIViewController {
     
     func isQuizDone() {
         if currQuestion >= quiz!.questions.count {
-            quizDoneLabel.text = "Done! You score \(currScore)/\(quiz!.questions.count)"
+            quizDoneLabel.text = "Done! You scored \(currScore)/\(quiz!.questions.count)"
             quizDoneLabel.isHidden = false
             startOverButton.isHidden = false
             nextButton.isHidden = true
