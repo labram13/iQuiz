@@ -16,7 +16,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     var quiz: ViewController.Quiz!
     var currQuestion: Int = 0
     var currScore: Int = 0
-    var userAnswer: String = ""
+    var userAnswer: Int = 0
     
     //controllers
     private var currentChildViewController: UIViewController?
@@ -56,7 +56,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         
         
         self.title = quiz.title
-        questionLabel.text = quiz.questions[currQuestion].question
+        questionLabel.text = quiz.questions[currQuestion].text
         scoreLabel.text = "Score: \(currScore)"
         table.dataSource = self
         table.delegate = self
@@ -65,17 +65,17 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return quiz.questions[currQuestion].multipleChoice.count
+        return quiz.questions[currQuestion].answers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "answerCell", for: indexPath)
-        cell.textLabel?.text = quiz.questions[currQuestion].multipleChoice[indexPath.row]
+        cell.textLabel?.text = quiz.questions[currQuestion].answers[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        userAnswer = quiz.questions[currQuestion].multipleChoice[indexPath.row]
+        userAnswer = indexPath.row + 1
         submitButton.isEnabled = true
 
     }

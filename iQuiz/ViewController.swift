@@ -13,72 +13,86 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     
  
-    struct Quiz {
+//    struct Quiz {
+//        let title: String
+//        let imageName: String
+//        let detail: String
+//        let questions: [Question]
+//    }
+//
+//    struct Question {
+//        var question: String
+//        var answer: String
+//        var answers: [String]
+//    }
+//
+//    let quizzes: [Quiz] = [
+//        Quiz(
+//            title: "Marvel",
+//            imageName: "marvel",
+//            detail: "A quiz about the Marvel Universe.",
+//            questions: [
+//                Question(
+//                    question: "Who plays Iron Man?",
+//                    answer: "Robert Downey Jr.",
+//                    answers: ["Robert Downey Jr.", "Seal", "Akon"]
+//                ),
+//                Question(
+//                    question: "Who plays Antman?",
+//                    answer: "Paul Rudd",
+//                    answers: ["Ja Rule", "Paul Rudd", "Cher"]
+//                )
+//            ]
+//        ),
+//        Quiz(
+//            title: "Science",
+//            imageName: "science",
+//            detail: "A quiz about science.",
+//            questions: [
+//                Question(
+//                    question: "What animal can fly?",
+//                    answer: "Birds",
+//                    answers: ["Birds", "Whales", "Dogs"]
+//                ),
+//                Question(
+//                    question: "How many moons does earth have?",
+//                    answer: "1",
+//                    answers: ["1", "5", "10"]
+//                )
+//            ]
+//        ),
+//        Quiz(
+//            title: "Math",
+//            imageName: "math",
+//            detail: "A quiz about math.",
+//            questions: [
+//                Question(
+//                    question: "What's 2 + 2?",
+//                    answer: "4",
+//                    answers: ["4", "1", "-8"]
+//                ),
+//                Question(
+//                    question: "What's 1 + 1?",
+//                    answer: "2",
+//                    answers: ["2", "3", "4"]
+//                )
+//            ]
+//        )
+//    ]
+    
+    struct Quiz: Codable {
         let title: String
-        let imageName: String
-        let detail: String
+        let desc: String
         let questions: [Question]
     }
 
-    struct Question {
-        var question: String
-        var answer: String
-        var multipleChoice: [String]
+    struct Question: Codable {
+        let text: String
+        let answer: String
+        let answers: [String]
     }
-
-    let quizzes: [Quiz] = [
-        Quiz(
-            title: "Marvel",
-            imageName: "marvel",
-            detail: "A quiz about the Marvel Universe.",
-            questions: [
-                Question(
-                    question: "Who plays Iron Man?",
-                    answer: "Robert Downey Jr.",
-                    multipleChoice: ["Robert Downey Jr.", "Seal", "Akon"]
-                ),
-                Question(
-                    question: "Who plays Antman?",
-                    answer: "Paul Rudd",
-                    multipleChoice: ["Ja Rule", "Paul Rudd", "Cher"]
-                )
-            ]
-        ),
-        Quiz(
-            title: "Science",
-            imageName: "science",
-            detail: "A quiz about science.",
-            questions: [
-                Question(
-                    question: "What animal can fly?",
-                    answer: "Birds",
-                    multipleChoice: ["Birds", "Whales", "Dogs"]
-                ),
-                Question(
-                    question: "How many moons does earth have?",
-                    answer: "1",
-                    multipleChoice: ["1", "5", "10"]
-                )
-            ]
-        ),
-        Quiz(
-            title: "Math",
-            imageName: "math",
-            detail: "A quiz about math.",
-            questions: [
-                Question(
-                    question: "What's 2 + 2?",
-                    answer: "4",
-                    multipleChoice: ["4", "1", "-8"]
-                ),
-                Question(
-                    question: "What's 1 + 1?",
-                    answer: "2",
-                    multipleChoice: ["2", "3", "4"]
-                )
-            ]
-        )
-    ]
+    
+    var quizzes: [Quiz] = []
 
     
     
@@ -88,9 +102,44 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         table.dataSource = self
         table.delegate = self
- 
-       
+        fetchData()
+        print(quizzes)
+
     }
+    
+    func fetchData() {
+            let urlString = "http://tednewardsandbox.site44.com/questions.json" // Consider changing to HTTPS if possible
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+                guard let self = self else { return }
+                if let error = error {
+                    print("Failed to fetch data: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data received")
+                    return
+                }
+                
+                do {
+                    let decoder = JSONDecoder()
+                    self.quizzes = try decoder.decode([Quiz].self, from: data)
+                    DispatchQueue.main.async {
+                        self.table.reloadData()
+                    }
+                    print("Parsed quiz topics: \(self.quizzes)")
+                } catch {
+                    print("JSON parsing error: \(error)")
+                }
+            }
+            
+            task.resume()
+        }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -101,9 +150,9 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QuizTableViewCell
         
         cell.title.text = quizzes[indexPath.row].title
-        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].imageName)
+        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].title)
 //        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].imageName)
-        cell.quizDescription.text = quizzes[indexPath.row].detail
+        cell.quizDescription.text = quizzes[indexPath.row].desc
         
         return cell
     }

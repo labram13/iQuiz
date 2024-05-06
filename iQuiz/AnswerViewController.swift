@@ -13,7 +13,7 @@ class AnswerViewController: UIViewController {
     var quiz: ViewController.Quiz?
     var currScore: Int = 0
     var currQuestion: Int = 0
-    var userAnswer: String = ""
+    var userAnswer: Int = 0
     
     @IBOutlet weak var correctLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
@@ -47,7 +47,9 @@ class AnswerViewController: UIViewController {
     }
     
     func isCorrect() {
-        if userAnswer == quiz!.questions[currQuestion].answer {
+        let answerNum = Int(quiz!.questions[currQuestion].answer)! - 1
+        answerLabel.text = quiz!.questions[currQuestion].answers[answerNum]
+        if userAnswer == Int(quiz!.questions[currQuestion].answer) {
             correctLabel.isHidden = false
             currScore += 1
             scoreLabel.text = "Score: \(currScore)"
@@ -73,7 +75,6 @@ class AnswerViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        answerLabel.text = quiz!.questions[currQuestion].answer
         correctLabel.isHidden = true
         incorrectLabel.isHidden = true
         quizDoneLabel.isHidden = true
