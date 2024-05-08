@@ -10,10 +10,7 @@ import UIKit
 class AnswerViewController: UIViewController {
     private var currentChildViewController: UIViewController?
     private var secondViewController: QuestionViewController?
-    var quiz: Quiz!
-    var currScore: Int = 0
-    var currQuestion: Int = 0
-    var userAnswer: Int = 0
+    var quizViewModel = QuizViewModel.shared
     
     @IBOutlet weak var correctLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
@@ -44,13 +41,13 @@ class AnswerViewController: UIViewController {
     }
     
     func isCorrect() {
-        let answerNum = Int(quiz!.questions[currQuestion].answer)! - 1
-        answerLabel.text = quiz!.questions[currQuestion].answers[answerNum]
-        if userAnswer == Int(quiz!.questions[currQuestion].answer) {
+        if quizViewModel.getUserAnswer() == quizViewModel.getCorrectAnswerNum() {
+            quizViewModel.addScore()
             correctLabel.isHidden = false
-            currScore += 1
+
         } else {
             incorrectLabel.isHidden = false
+
         }
     }
 
@@ -58,18 +55,15 @@ class AnswerViewController: UIViewController {
         super.viewDidLoad()
         correctLabel.isHidden = true
         incorrectLabel.isHidden = true
+        answerLabel.text = quizViewModel.getCorrectAnswerText()
         isCorrect()
-        currQuestion += 1
-        // Do any additional setup after loading the view.
+        quizViewModel.nextQuestion()
         
     }
     
 
     @IBAction func switchViews(_ sender: Any) {
         secondViewController = instantiate(id: "question") as? QuestionViewController
-        secondViewController!.quiz = self.quiz
-        secondViewController!.currScore = self.currScore
-        secondViewController!.currQuestion = self.currQuestion
         
         if let secondVC = secondViewController {
             UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {

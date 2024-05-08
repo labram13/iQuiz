@@ -10,13 +10,9 @@ import UIKit
 
 
 class QuestionViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    
-    
+
     //data
-    var quiz: Quiz!
-    var currQuestion: Int = 0
-    var currScore: Int = 0
-    var userAnswer: Int = 0
+    var quizViewModel = QuizViewModel.shared
     
     //controllers
     private var currentChildViewController: UIViewController?
@@ -54,27 +50,42 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.title = quiz.title
-        questionLabel.text = quiz.questions[currQuestion].text
+        self.title = quizViewModel.getTitle()
+        questionLabel.text = quizViewModel.getQuestion()
         table.dataSource = self
         table.delegate = self
         submitButton.isEnabled = false
-        
+        if QuizViewModel.shared.quizzes.isEmpty {
+               QuizViewModel.shared.loadQuizzes {
+                   self.setupView()
+               }
+           } else {
+               setupView()
+           }
         }
+    private func setupView() {
+        guard let currQuiz = QuizViewModel.shared.currQuiz else {
+            print("Quiz data is not available.")
+            return
+        }
+
+        table.dataSource = self
+        table.delegate = self
+        submitButton.isEnabled = false
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return quiz.questions[currQuestion].answers.count
+        return quizViewModel.getNumAnswers()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "answerCell", for: indexPath)
-        cell.textLabel?.text = quiz.questions[currQuestion].answers[indexPath.row]
+        cell.textLabel?.text = quizViewModel.getAnswers()[indexPath.row]
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        userAnswer = indexPath.row + 1
+        quizViewModel.setAnswer(indexPath.row + 1)
         submitButton.isEnabled = true
 
     }
@@ -82,12 +93,12 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     @IBAction func switchViews(_ sender: Any) {
-        if (currQuestion + 1 < quiz.questions.count) {
+        if (quizViewModel.getCurrQuestion() < quizViewModel.getNumQuestions()) {
             secondViewController = instantiate(id: "answer") as? AnswerViewController
-            secondViewController!.quiz = self.quiz
-            secondViewController!.currScore = self.currScore
-            secondViewController!.currQuestion = self.currQuestion
-            secondViewController!.userAnswer = self.userAnswer
+//            secondViewController!.quiz = self.quiz
+//            secondViewController!.currScore = self.currScore
+//            secondViewController!.currQuestion = self.currQuestion
+//            secondViewController!.userAnswer = self.userAnswer
             
             if let secondVC = secondViewController {
                 UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
@@ -96,10 +107,10 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         } else {
             thirdViewController = instantiate(id: "finish") as? FinishViewController
-            thirdViewController!.quiz = self.quiz
-            thirdViewController!.currScore = self.currScore
-            thirdViewController!.currQuestion = self.currQuestion
-            thirdViewController!.userAnswer = self.userAnswer
+//            thirdViewController!.quiz = self.quiz
+//            thirdViewController!.currScore = self.currScore
+//            thirdViewController!.currQuestion = self.currQuestion
+//            thirdViewController!.userAnswer = self.userAnswer
             if let secondVC = thirdViewController {
                 UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
                     self.switchViewController(to: secondVC)
@@ -108,15 +119,6 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         }
 
     }
-    
-    
-    
-    
-   
-
-    
-    
-    
   
 
 }

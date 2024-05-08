@@ -10,9 +10,8 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var quizViewModel = QuizViewModel()
+    var quizViewModel = QuizViewModel.shared
     
-    var quizzes: [Quiz] = []
 
     
     
@@ -20,9 +19,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        quizzes = quizViewModel.quizzes
+        quizViewModel.resetQuiz()
         table.dataSource = self
         table.delegate = self
+        
         
         
     }
@@ -30,16 +30,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return quizzes.count
+        return quizViewModel.quizzes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! QuizTableViewCell
         
-        cell.title.text = quizzes[indexPath.row].title
-        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].title)
+        cell.title.text = quizViewModel.quizzes[indexPath.row].title
+        cell.quizIcon.image = UIImage(named: quizViewModel.quizzes[indexPath.row].title)
 //        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].imageName)
-        cell.quizDescription.text = quizzes[indexPath.row].desc
+        cell.quizDescription.text = quizViewModel.quizzes[indexPath.row].desc
         
         return cell
     }
@@ -57,22 +57,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     //pass selected data
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showQuestion", let destinationVC = segue.destination as? QuestionViewController {
+        if segue.identifier == "showQuestion" {
             if let indexPath = table.indexPathForSelectedRow {
-                // Pass the selected quiz to the destination view controller
-                destinationVC.quiz = quizzes[indexPath.row]
+                quizViewModel.resetQuiz()
+                quizViewModel.setQuiz(indexPath.row)
+                
             }
         }
     }
-    
-    @IBAction func showAlert(_ sender: Any) {
-        let alert = UIAlertController(title: "Settings", message: "Settings go here", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
-        NSLog("The \"OK\" alert occured.")
-        }))
-        self.present(alert, animated: true, completion: nil)
 
-    }
+    
+//    @IBAction func showAlert(_ sender: Any) {
+//        let alert = UIAlertController(title: "Settings", message: "Settings go here", preferredStyle: .alert)
+//        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default, handler: { _ in
+//        NSLog("The \"OK\" alert occured.")
+//        }))
+//        self.present(alert, animated: true, completion: nil)
+//
+//    }
     
 }
 

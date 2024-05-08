@@ -10,17 +10,17 @@ import UIKit
 class FinishViewController: UIViewController {
     private var currentChildViewController: UIViewController?
     private var secondViewController: QuestionViewController?
-    var quiz: Quiz!
-    var currScore: Int = 0
-    var currQuestion: Int = 0
-    var userAnswer: Int = 0
+
+    var quizViewModel = QuizViewModel.shared
 
     @IBOutlet weak var performanceLabel: UILabel!
     @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var answerLabel: UILabel!
+
     
     func checkPerformance() {
-        let percent = Double(currScore) / Double(quiz!.questions.count)
+        let percent = Double(quizViewModel.getScore()) / Double(quizViewModel.getNumQuestions())
+        
         if percent == 1.0 {
             performanceLabel.text = "Perfect!"
         } else if percent < 1.0 && percent > 0.5 {
@@ -33,21 +33,19 @@ class FinishViewController: UIViewController {
     }
     
     func isCorrect() {
-        let answerNum = Int(quiz!.questions[currQuestion].answer)! - 1
-        answerLabel.text = quiz!.questions[currQuestion].answers[answerNum]
-        if userAnswer == Int(quiz!.questions[currQuestion].answer) {
-            currScore += 1
+        if quizViewModel.getUserAnswer() == quizViewModel.getCorrectAnswerNum() {
+            quizViewModel.addScore()
         }
     }
     
     func setScore() {
-        scoreLabel.text = "You scored \(currScore)/\(quiz!.questions.count)"
+        scoreLabel.text = "You scored \(quizViewModel.getScore())/\(quizViewModel.getNumQuestions())"
     }
     
-    func resetQuiz() {
-        currScore = 0
-        currQuestion = 0
+    func setAnswer() {
+        answerLabel.text = quizViewModel.getCorrectAnswerText()
     }
+    
     
     private func switchViewController(to newViewController: UIViewController) {
         // Remove the old child view controller if it exists
@@ -76,15 +74,16 @@ class FinishViewController: UIViewController {
         isCorrect()
         checkPerformance()
         setScore()
-        resetQuiz()
+        setAnswer()
+        quizViewModel.resetQuiz()        
         // Do any additional setup after loading the view.
     }
     
     @IBAction func switchViews(_ sender: Any) {
         secondViewController = instantiate(id: "question") as? QuestionViewController
-        secondViewController!.quiz = self.quiz
-        secondViewController!.currScore = self.currScore
-        secondViewController!.currQuestion = self.currQuestion
+//        secondViewController!.quiz = self.quiz
+//        secondViewController!.currScore = self.currScore
+//        secondViewController!.currQuestion = self.currQuestion
         
         if let secondVC = secondViewController {
             UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
