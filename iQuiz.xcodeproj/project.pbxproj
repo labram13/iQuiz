@@ -21,6 +21,7 @@
 		1F5047CE2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5047CD2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift */; };
 		1F87461D2BE85048005FBABF /* FetchData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F87461C2BE85048005FBABF /* FetchData.swift */; };
 		1FB55ED62BE70F3500834306 /* QuizTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB55ED52BE70F3500834306 /* QuizTableViewCell.swift */; };
+		1FBDAC562BEB13FA001CCF39 /* FinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBDAC552BEB13FA001CCF39 /* FinishViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		1F5047CD2BE00B54006C33F0 /* iQuizUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iQuizUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1F87461C2BE85048005FBABF /* FetchData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchData.swift; sourceTree = "<group>"; };
 		1FB55ED52BE70F3500834306 /* QuizTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTableViewCell.swift; sourceTree = "<group>"; };
+		1FBDAC552BEB13FA001CCF39 /* FinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinishViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				1F5047B52BE00B54006C33F0 /* LaunchScreen.storyboard */,
 				1F5047B82BE00B54006C33F0 /* Info.plist */,
 				1F87461C2BE85048005FBABF /* FetchData.swift */,
+				1FBDAC552BEB13FA001CCF39 /* FinishViewController.swift */,
 			);
 			path = iQuiz;
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 			files = (
 				1F5047AF2BE00B53006C33F0 /* ViewController.swift in Sources */,
 				1F05CF932BE761DE0098A68E /* AnswerViewController.swift in Sources */,
+				1FBDAC562BEB13FA001CCF39 /* FinishViewController.swift in Sources */,
 				1F05CF8F2BE761AC0098A68E /* QuestionViewController.swift in Sources */,
 				1F5047AB2BE00B53006C33F0 /* AppDelegate.swift in Sources */,
 				1F05CF912BE761BC0098A68E /* AnswersTableViewCell.swift in Sources */,

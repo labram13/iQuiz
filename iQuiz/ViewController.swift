@@ -103,8 +103,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         table.dataSource = self
         table.delegate = self
         fetchData()
-        print(quizzes)
-
     }
     
     func fetchData() {
@@ -132,7 +130,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     DispatchQueue.main.async {
                         self.table.reloadData()
                     }
-                    print("Parsed quiz topics: \(self.quizzes)")
+//                    print("Parsed quiz topics: \(self.quizzes)")
                 } catch {
                     print("JSON parsing error: \(error)")
                 }

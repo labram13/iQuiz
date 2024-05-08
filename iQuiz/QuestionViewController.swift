@@ -21,11 +21,11 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     //controllers
     private var currentChildViewController: UIViewController?
     private var secondViewController: AnswerViewController?
+    private var thirdViewController: FinishViewController?
     
     
     @IBOutlet weak var table: UITableView!
     @IBOutlet weak var questionLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
     @IBOutlet weak var submitButton: UIButton!
     
     private func switchViewController(to newViewController: UIViewController) {
@@ -57,7 +57,6 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         
         self.title = quiz.title
         questionLabel.text = quiz.questions[currQuestion].text
-        scoreLabel.text = "Score: \(currScore)"
         table.dataSource = self
         table.delegate = self
         submitButton.isEnabled = false
@@ -83,17 +82,29 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     @IBAction func switchViews(_ sender: Any) {
-        
-        secondViewController = instantiate(id: "answer") as? AnswerViewController
-        secondViewController!.quiz = self.quiz
-        secondViewController!.currScore = self.currScore
-        secondViewController!.currQuestion = self.currQuestion
-        secondViewController!.userAnswer = self.userAnswer
-
-        if let secondVC = secondViewController {
-            UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
-                self.switchViewController(to: secondVC)
-            }, completion: nil)
+        if (currQuestion + 1 < quiz.questions.count) {
+            secondViewController = instantiate(id: "answer") as? AnswerViewController
+            secondViewController!.quiz = self.quiz
+            secondViewController!.currScore = self.currScore
+            secondViewController!.currQuestion = self.currQuestion
+            secondViewController!.userAnswer = self.userAnswer
+            
+            if let secondVC = secondViewController {
+                UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
+                    self.switchViewController(to: secondVC)
+                }, completion: nil)
+            }
+        } else {
+            thirdViewController = instantiate(id: "finish") as? FinishViewController
+            thirdViewController!.quiz = self.quiz
+            thirdViewController!.currScore = self.currScore
+            thirdViewController!.currQuestion = self.currQuestion
+            thirdViewController!.userAnswer = self.userAnswer
+            if let secondVC = thirdViewController {
+                UIView.transition(with: self.view, duration: 0.4, options: [.transitionFlipFromRight, .curveEaseInOut], animations: {
+                    self.switchViewController(to: secondVC)
+                }, completion: nil)
+            }
         }
 
     }
