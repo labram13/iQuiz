@@ -1,25 +1,14 @@
 import Foundation
 
 class FetchData {
-    static let shared = FetchData()  // Singleton instance
+    static let shared = FetchData()
 
-    func fetchData(from urlString: String, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchData(from urlString: String) async throws -> Data {
         guard let url = URL(string: urlString) else {
-            completion(.failure(NSError(domain: "NetworkManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
-            return
+            throw NSError(domain: "FetchDataError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
         }
 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            guard let data = data else {
-                completion(.failure(NSError(domain: "NetworkManager", code: -2, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
-                return
-            }
-            completion(.success(data))
-        }
-        task.resume()
+        let (data, _) = try await URLSession.shared.data(from: url)
+        return data
     }
 }

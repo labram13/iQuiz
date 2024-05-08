@@ -13,7 +13,7 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
     
     
     //data
-    var quiz: ViewController.Quiz!
+    var quiz: Quiz!
     var currQuestion: Int = 0
     var currScore: Int = 0
     var userAnswer: Int = 0

@@ -10,7 +10,7 @@ import UIKit
 class AnswerViewController: UIViewController {
     private var currentChildViewController: UIViewController?
     private var secondViewController: QuestionViewController?
-    var quiz: ViewController.Quiz?
+    var quiz: Quiz!
     var currScore: Int = 0
     var currQuestion: Int = 0
     var userAnswer: Int = 0
