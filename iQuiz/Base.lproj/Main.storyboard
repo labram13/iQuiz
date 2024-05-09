@@ -198,6 +198,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="5O3-vE-8V1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="AMd-MM-nNS"/>
                             <constraint firstItem="5O3-vE-8V1" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="m5u-Nv-sL2"/>
@@ -229,7 +230,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="hT5-nq-uGR">
                             <connections>
                                 <action selector="showAlert:" destination="BYZ-38-t0r" id="yWz-uG-MR2"/>
-                                <segue destination="Tc7-rL-VVq" kind="popoverPresentation" popoverAnchorBarButtonItem="hT5-nq-uGR" id="Tjj-lK-Z4l">
+                                <segue destination="Tc7-rL-VVq" kind="popoverPresentation" identifier="settingSegue" popoverAnchorBarButtonItem="hT5-nq-uGR" id="V95-eg-LcZ">
                                     <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
                                 </segue>
                             </connections>
@@ -241,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1002.8169014084508" y="-37.404580152671755"/>
+            <point key="canvasLocation" x="1002.2900763358779" y="-38.028169014084511"/>
         </scene>
         <!--Question View Controller-->
         <scene sceneID="vdi-cG-1RA">
@@ -592,20 +593,61 @@
             </objects>
             <point key="canvasLocation" x="2639.1999999999998" y="286.50674662668666"/>
         </scene>
-        <!--View Controller-->
+        <!--Settings View Controller-->
         <scene sceneID="ble-vx-oaK">
             <objects>
-                <viewController id="Tc7-rL-VVq" sceneMemberID="viewController">
+                <viewController id="Tc7-rL-VVq" customClass="SettingsViewController" customModule="iQuiz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="VzH-jC-lkv">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qMc-bs-5yn">
+                                <rect key="frame" x="16" y="0.0" width="75" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="goBack:" destination="Tc7-rL-VVq" eventType="touchUpInside" id="fkE-AR-IIw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B7a-gw-Gfy">
+                                <rect key="frame" x="16" y="92" width="101" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Enter URL"/>
+                                <connections>
+                                    <action selector="switchToSettings:" destination="Tc7-rL-VVq" eventType="touchUpInside" id="j7w-Fb-296"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WAs-eV-1Pt">
+                                <rect key="frame" x="304" y="92" width="73" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Check"/>
+                                <connections>
+                                    <action selector="checkUrl:" destination="Tc7-rL-VVq" eventType="touchUpInside" id="Zhx-GX-nws"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eil-vK-tWO">
+                                <rect key="frame" x="16" y="135" width="361" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="oq7-lH-fFL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="oJB-5C-bw0"/>
+                    <connections>
+                        <outlet property="settings" destination="B7a-gw-Gfy" id="bYK-dZ-O19"/>
+                        <outlet property="urlLabel" destination="eil-vK-tWO" id="KxF-3U-e33"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FbH-L6-kui" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1787" y="-715"/>
+            <point key="canvasLocation" x="2560" y="-579"/>
         </scene>
         <!--Answer View Controller-->
         <scene sceneID="3AW-ID-4Oz">
@@ -804,7 +846,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Gzy-ew-hm6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2639.4366197183099" y="-393.12977099236639"/>
+            <point key="canvasLocation" x="3565.6488549618321" y="-393.66197183098592"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CSR-iz-AXK">

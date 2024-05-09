@@ -55,16 +55,9 @@ class QuestionViewController: UIViewController, UITableViewDataSource, UITableVi
         table.dataSource = self
         table.delegate = self
         submitButton.isEnabled = false
-        if QuizViewModel.shared.quizzes.isEmpty {
-               QuizViewModel.shared.loadQuizzes {
-                   self.setupView()
-               }
-           } else {
-               setupView()
-           }
         }
     private func setupView() {
-        guard let currQuiz = QuizViewModel.shared.currQuiz else {
+        guard QuizViewModel.shared.currQuiz != nil else {
             print("Quiz data is not available.")
             return
         }

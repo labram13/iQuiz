@@ -22,12 +22,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         quizViewModel.resetQuiz()
         table.dataSource = self
         table.delegate = self
-        
-        
-        
     }
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return quizViewModel.quizzes.count
@@ -64,7 +59,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
             }
         }
+        if segue.identifier == "settingSegue", // Replace with your actual segue identifier
+              let settingsVC = segue.destination as? SettingsViewController {
+               settingsVC.onDismiss = { [weak self] in
+                   self?.table.reloadData()
+               }
+            print("reloading")
+           }
     }
+    
+ 
 
     
 //    @IBAction func showAlert(_ sender: Any) {

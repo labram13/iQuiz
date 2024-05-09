@@ -10,29 +10,64 @@ class QuizViewModel {
     var currScore: Int = 0
     var userAnswer: Int = 0
     var currQuiz: Quiz!
+    var fileManager: FileManager!
+    var usingDefault = true
 
     init() {
-        loadQuizzes()
+        fileManager = FileManager.default
+        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let file = docs!.appendingPathComponent("test11.json")
+        guard fileManager.fileExists(atPath: file.path) else {
+            self.quizzes = defaultQuiz
+            return
+        }
+        if fileManager.fileExists(atPath: file.path) {
+            do {
+                let data = try Data(contentsOf: file)
+                let decoder = JSONDecoder()
+                self.quizzes = try decoder.decode([Quiz].self, from: data)
+                usingDefault = false
+                
+                
+            } catch {
+                NSLog("file doesn't exist")
+                
+            }
+            
+        }
+    }
+    func setDownloadedData() {
+        fileManager = FileManager.default
+        let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+        let file = docs!.appendingPathComponent("test11.json")
+        guard fileManager.fileExists(atPath: file.path) else {
+            self.quizzes = defaultQuiz
+               return
+           }
+        if fileManager.fileExists(atPath: file.path) {
+            do {
+                let data = try Data(contentsOf: file)
+                let decoder = JSONDecoder()
+                self.quizzes = try decoder.decode([Quiz].self, from: data)
+                usingDefault = false
+                
+                
+            } catch {
+                NSLog("file doesn't exist")
+                
+            }
+        }
+    }
+   
+    
+    func setDefault() {
+        self.usingDefault = false
     }
     
     func resetQuiz() {
         currQuestion = 0
         currScore = 0
         userAnswer = 0
-    }
-
-    func loadQuizzes(completion: (() -> Void)? = nil) {
-        Task {
-            do {
-                let data = try await FetchData.shared.fetchData(from: "https://tednewardsandbox.site44.com/questions.json")
-                self.quizzes = try JSONDecoder().decode([Quiz].self, from: data)
-                DispatchQueue.main.async {
-                    completion?()
-                }
-            } catch {
-                print("Failed to fetch or decode quizzes: \(error)")
-            }
-        }
     }
     
     func getCurrQuestion() -> Int {
@@ -91,3 +126,23 @@ class QuizViewModel {
         print(currQuiz!)
     }
 }
+
+
+let defaultQuiz = [
+    Quiz(
+        title: "Science!",
+        desc: "Because SCIENCE!",
+        questions: [
+            Question(
+                text: "What is fire?",
+                answer: "1",
+                answers: [
+                    "One of the four classical elements",
+                    "A magical reaction given to us by God",
+                    "A band that hasn't yet been discovered",
+                    "Fire! Fire! Fire! heh-heh"
+                ]
+            )
+        ]
+    )
+]
