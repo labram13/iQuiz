@@ -16,7 +16,7 @@ class QuizViewModel {
     init() {
         fileManager = FileManager.default
         let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let file = docs!.appendingPathComponent("test11.json")
+        let file = docs!.appendingPathComponent("downloadedData.json")
         guard fileManager.fileExists(atPath: file.path) else {
             self.quizzes = defaultQuiz
             return
@@ -39,7 +39,7 @@ class QuizViewModel {
     func setDownloadedData() {
         fileManager = FileManager.default
         let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
-        let file = docs!.appendingPathComponent("test11.json")
+        let file = docs!.appendingPathComponent("downloadedData.json")
         guard fileManager.fileExists(atPath: file.path) else {
             self.quizzes = defaultQuiz
                return

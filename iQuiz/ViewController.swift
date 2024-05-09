@@ -10,8 +10,10 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var quizViewModel = QuizViewModel.shared
     
+    var quizViewModel: QuizViewModel!
+    var refreshTimer: Timer?
+    var userDefaults = UserDefaults.standard
 
     
     
@@ -19,10 +21,43 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        clearDocumentsFolder()
+        quizViewModel = QuizViewModel.shared
         quizViewModel.resetQuiz()
         table.dataSource = self
         table.delegate = self
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged )
+        table.refreshControl = refreshControl
     }
+    
+    func clearDocumentsFolder() {
+            let fileManager = FileManager.default
+            do {
+                let documentsURL = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+                let docsPath = documentsURL.path
+                let fileNames = try fileManager.contentsOfDirectory(atPath: docsPath)
+                for fileName in fileNames {
+                    let filePath = (docsPath as NSString).appendingPathComponent(fileName)
+                    try fileManager.removeItem(atPath: filePath)
+                    print("Deleted file:", filePath)
+                }
+            } catch {
+                print("Could not clear documents folder: \(error)")
+            }
+        }
+    
+    @objc func refresh(refreshControl: UIRefreshControl) {
+        
+        let seconds = Double(userDefaults.string(forKey: "refresh")!)
+        print(seconds!)
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds!) {
+            self.table.reloadData()
+                refreshControl.endRefreshing()
+            }
+    }
+    
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return quizViewModel.quizzes.count
@@ -33,7 +68,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         cell.title.text = quizViewModel.quizzes[indexPath.row].title
         cell.quizIcon.image = UIImage(named: quizViewModel.quizzes[indexPath.row].title)
-//        cell.quizIcon.image = UIImage(named: quizzes[indexPath.row].imageName)
         cell.quizDescription.text = quizViewModel.quizzes[indexPath.row].desc
         
         return cell
@@ -59,13 +93,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 
             }
         }
-        if segue.identifier == "settingSegue", // Replace with your actual segue identifier
-              let settingsVC = segue.destination as? SettingsViewController {
-               settingsVC.onDismiss = { [weak self] in
-                   self?.table.reloadData()
-               }
-            print("reloading")
-           }
+//        if segue.identifier == "settingSegue", // Replace with your actual segue identifier
+//              let settingsVC = segue.destination as? SettingsViewController {
+//               settingsVC.onDismiss = { [weak self] in
+//                   self?.table.reloadData()
+//               }
+//            print("reloading")
+//           }
     }
     
  

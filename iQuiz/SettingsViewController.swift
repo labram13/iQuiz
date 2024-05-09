@@ -11,7 +11,6 @@ class SettingsViewController: UIViewController {
     let quiz = QuizViewModel.shared
     let userDefaults = UserDefaults.standard
     var url: String? = nil
-    var onDismiss: (() -> Void)?
     @IBOutlet weak var settings: UIButton!
    
     @IBOutlet weak var urlLabel: UILabel!
@@ -71,7 +70,7 @@ class SettingsViewController: UIViewController {
         let fileManager = FileManager.default
      
             let docURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-            let newFile = docURL.appendingPathComponent("test11.json")
+            let newFile = docURL.appendingPathComponent("downloadedData.json")
             try jsonData.write(to: newFile, options: .atomic)
        
     }
@@ -167,11 +166,8 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func goBack(_ sender: Any) {
-        dismiss(animated: true) { [weak self] in
-            self?.onDismiss?()
-        }
+        dismiss(animated: true)
         self.quiz.setDownloadedData()
-        print(quiz.quizzes)
     }
     
     @IBAction func switchToSettings(_ sender: Any) {
