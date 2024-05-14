@@ -34,6 +34,7 @@ class AnswerViewController: UIViewController {
         // Update the current child reference
         currentChildViewController = newViewController
     }
+    
 
 
     private func instantiate<T: UIViewController>(id: String) -> T? {

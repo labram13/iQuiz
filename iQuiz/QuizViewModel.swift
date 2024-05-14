@@ -28,29 +28,20 @@ class QuizViewModel {
                 self.quizzes = try decoder.decode([Quiz].self, from: data)
                 usingDefault = false
                 
-                
             } catch {
                 NSLog("file doesn't exist")
-                
             }
-            
         }
     }
     func setDownloadedData() {
-        fileManager = FileManager.default
         let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
         let file = docs!.appendingPathComponent("downloadedData.json")
-        guard fileManager.fileExists(atPath: file.path) else {
-            self.quizzes = defaultQuiz
-               return
-           }
         if fileManager.fileExists(atPath: file.path) {
             do {
                 let data = try Data(contentsOf: file)
                 let decoder = JSONDecoder()
                 self.quizzes = try decoder.decode([Quiz].self, from: data)
                 usingDefault = false
-                
                 
             } catch {
                 NSLog("file doesn't exist")
@@ -59,7 +50,6 @@ class QuizViewModel {
         }
     }
    
-    
     func setDefault() {
         self.usingDefault = false
     }
@@ -127,7 +117,8 @@ class QuizViewModel {
     }
 }
 
-
+//Default quiz used to see the difference between
+//default and downloaded quiz
 let defaultQuiz = [
     Quiz(
         title: "Science!",

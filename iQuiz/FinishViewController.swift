@@ -63,7 +63,17 @@ class FinishViewController: UIViewController {
         
         // Update the current child reference
         currentChildViewController = newViewController
+        setupGesture()
     }
+    
+    private func setupGesture() {
+          let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeToSwitch(_:)))
+          swipeGesture.direction = .left  // or .right based on your preference
+          view.addGestureRecognizer(swipeGesture)
+      }
+    @objc func handleSwipeToSwitch(_ gesture: UISwipeGestureRecognizer) {
+            switchViews(gesture)
+        }
 
 
     private func instantiate<T: UIViewController>(id: String) -> T? {

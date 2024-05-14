@@ -17,7 +17,7 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if quiz.usingDefault {
-            urlLabel.text = "Using Default Data of Test Data for Science Quiz"
+            urlLabel.text = "Using Default Data"
         } else {
             urlLabel.text = userDefaults.string(forKey: "url")
         }
